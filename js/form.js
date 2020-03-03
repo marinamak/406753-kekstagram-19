@@ -81,14 +81,15 @@
   var effectLevel = imgEditor.querySelector('.effect-level');
   var effectPin = effectLevel.querySelector('.effect-level__pin');
   var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
-  var effectLevelValue = effectLevel.querySelector('.effect-level__value');
-
-  effectPin.style.left = '100%';
-  effectLevel.classList.add('hidden');
+  var imgUploadLabel = imgUpload.querySelector('.img-upload__label');
 
   var clearEffect = function () {
     imgPreview.removeAttribute('class');
+    imgPreview.removeAttribute('style');
+    effectPin.style.left = '100%';
+    effectLevelDepth.style.width = '100%';
     effectLevel.classList.add('hidden');
+    scaleControlValue.value = '100%';
   };
 
   var addEffect = function (evt) {
@@ -99,29 +100,26 @@
       imgPreview.classList.add('effects__preview--' + effectName);
       effectLevel.classList.remove('hidden');
     }
-    changeEffectLevelDepth();
   };
 
-  var getEffectLevelDepth = function () {
-    var levelDepth = parseInt(effectPin.style.left, 10);
-
-    return levelDepth;
-  };
-
-  var changeEffectLevelDepth = function () {
-    effectLevelDepth.style.width = getEffectLevelDepth() + '%';
-    effectLevelValue.value = getEffectLevelDepth();
-  };
-
-  var oneffectLevelPinMouseDown = function () {
-
-  };
-
-  var oneffectLevelPinMouseUp = function () {
-
-  };
-
-  effectPin.addEventListener('mousedown', oneffectLevelPinMouseDown);
-  effectPin.addEventListener('mouseup', oneffectLevelPinMouseUp);
   effects.addEventListener('click', addEffect);
+  imgUploadLabel.addEventListener('click', clearEffect);
+
+  var changeEffectValue = function (value) {
+    if (imgPreview.classList.contains('effects__preview--chrome')) {
+      imgPreview.style.filter = 'grayscale(' + value + ')';
+    } else if (imgPreview.classList.contains('effects__preview--sepia')) {
+      imgPreview.style.filter = 'sepia(' + value + ')';
+    } else if (imgPreview.classList.contains('effects__preview--marvin')) {
+      imgPreview.style.filter = 'invert(' + value * 100 + '%)';
+    } else if (imgPreview.classList.contains('effects__preview--phobos')) {
+      imgPreview.style.filter = 'blur(' + value * 3 + 'px)';
+    } else if (imgPreview.classList.contains('effects__preview--heat')) {
+      imgPreview.style.filter = 'brightness(' + value * 3 + ')';
+    }
+  };
+
+  window.form = {
+    changeEffectValue: changeEffectValue
+  };
 })();
