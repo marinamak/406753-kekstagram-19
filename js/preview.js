@@ -15,7 +15,9 @@
     var newSocialComment = document.querySelector('.social__comment').cloneNode(true);
     newSocialComment.querySelector('.social__picture').setAttribute('src', commentElement.avatar);
     newSocialComment.querySelector('.social__picture').setAttribute('alt', commentElement.name);
-    newSocialComment.querySelector('.social__text').innerText = commentElement.message;
+    newSocialComment.querySelector('.social__picture').width = SOCIAL_PICTURE_WIDTH;
+    newSocialComment.querySelector('.social__picture').height = SOCIAL_PICTURE_HEIGHT;
+    newSocialComment.querySelector('.social__text').textContent = commentElement.message;
     return newSocialComment;
   };
 
