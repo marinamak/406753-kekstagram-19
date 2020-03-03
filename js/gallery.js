@@ -1,18 +1,32 @@
 'use strict';
 (function () {
   // --------Показ изображений других пользователей--------
-  var picturesContainer = document.querySelector('.pictures');
-  var similarPictureTemplate = document.querySelector('#picture').content;
+  var pictureTemplate = document.querySelector('#picture').content.firstElementChild;
+  var pictures = document.querySelector('.pictures');
 
-  var renderPicture = function (picture) {
-    var pictureElement = similarPictureTemplate.cloneNode(true);
-
-    pictureElement.querySelector('img').src = picture.url;
-    pictureElement.querySelector('.picture__likes').textContent = picture.likes;
-    pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
-
-    return pictureElement;
+  var renderPicture = function (pictureElement) {
+    var pictureNode = pictureTemplate.cloneNode(true);
+    pictureNode.querySelector('.picture__img').setAttribute('src', pictureElement.url);
+    pictureNode.querySelector('.picture__likes').innerText = pictureElement.likes;
+    pictureNode.querySelector('.picture__comments').innerText = pictureElement.comments.length;
+    return pictureNode;
   };
+
+  var generatePictureFragment = function (arr) {
+    var fragmentPicture = document.createDocumentFragment();
+    for (var i = 0; i < arr.length; i++) {
+      var pictureElement = renderPicture(arr[i]);
+      pictureElement.setAttribute('data-num', i);
+      fragmentPicture.appendChild(pictureElement);
+    }
+    return fragmentPicture;
+  };
+
+  var appendPicture = function (fragment) {
+    pictures.appendChild(fragment);
+  };
+
+  appendPicture(generatePictureFragment(window.data.smallPhotos));
 
   // var renderSimilarPictures = function (picturesArray) {
   //   var similarPicturesElement = document.createDocumentFragment();
@@ -24,14 +38,14 @@
 
   // renderSimilarPictures(window.data.pictures);
 
-  var successHandler = function (picturesArray) {
-    var similarPicturesElement = document.createDocumentFragment();
-
-    for (var i = 0; i < picturesArray.length; i++) {
-      similarPicturesElement.appendChild(renderPicture(picturesArray[i]));
-    }
-    picturesContainer.appendChild(similarPicturesElement);
-  };
+  // var successHandler = function (picturesArray) {
+  //   var similarPicturesElement = document.createDocumentFragment();
+  //
+  //   for (var i = 0; i < picturesArray.length; i++) {
+  //     similarPicturesElement.appendChild(renderPicture(picturesArray[i]));
+  //   }
+  //   picturesContainer.appendChild(similarPicturesElement);
+  // };
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');

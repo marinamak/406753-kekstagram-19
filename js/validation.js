@@ -6,6 +6,7 @@
   var imgUpload = document.querySelector('.img-upload');
   var imgEditor = imgUpload.querySelector('.img-upload__overlay');
   var hashtagsInput = imgEditor.querySelector('.text__hashtags');
+  var commentTextarea = imgEditor.querySelector('.text__description');
 
   var findDuplicates = function (items) {
     var isDublicate = false;
