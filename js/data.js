@@ -43,21 +43,21 @@
 
   // ------ Формирование массива фотографий ------
   var createPhoto = function (picNum) {
-    var pictures = [];
+    var photos = [];
     for (var i = 0; i <= picNum - 1; i++) {
       var picture = {};
       picture.url = 'photos/' + (i + 1) + '.jpg';
       picture.description = 'Описание фотографии';
       picture.likes = window.util.getRandomInt(MIN_LIKES, MAX_LIKES);
       picture.comments = createComment();
-      pictures.push(picture);
+      photos.push(picture);
     }
-    return pictures;
+    return photos;
   };
 
-  var pictures = createPhoto(PICTURES_NUMBER);
+  var photos = createPhoto(PICTURES_NUMBER);
 
   window.data = {
-    pictures: pictures
+    smallPhotos: photos
   };
 })();

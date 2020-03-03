@@ -12,9 +12,15 @@
   var scaleControlBigger = imgEditor.querySelector('.scale__control--bigger');
   var scaleControlValue = imgEditor.querySelector('.scale__control--value');
   var imgPreview = imgEditor.querySelector('.img-upload__preview img');
+  var hashtagsInput = imgEditor.querySelector('.text__hashtags');
+  var commentTextarea = imgEditor.querySelector('.text__description');
 
-  var onEditorEscPress = function (evt) {
-    window.util.isEscEvent(evt, closeEditor);
+  var closeEditorEscHandler = function (evt) {
+    var isHashtagsFocused = (document.activeElement === hashtagsInput);
+    var isCommentFocused = (document.activeElement === commentTextarea);
+    if (!isHashtagsFocused && !isCommentFocused) {
+      window.util.isEscEvent(evt, closeEditor);
+    }
   };
 
   var openPhotoEditor = function () {
@@ -22,13 +28,13 @@
     imgPreview.style.transform = 'scale(1)';
     imgEditor.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    document.addEventListener('keydown', onEditorEscPress);
+    document.addEventListener('keydown', closeEditorEscHandler);
   };
 
   var closeEditor = function () {
     imgEditor.classList.add('hidden');
     document.body.classList.remove('modal-open');
-    document.removeEventListener('keydown', onEditorEscPress);
+    document.removeEventListener('keydown', closeEditorEscHandler);
     uploadFile.value = '';
   };
 
