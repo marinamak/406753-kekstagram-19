@@ -32,7 +32,7 @@
   };
 
   var save = function (data, onLoad, onError) {
-    var URL = 'https://js.dump.academy/kekstagram/data';
+    var URL = 'https://js.dump.academy/kekstagram';
 
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';

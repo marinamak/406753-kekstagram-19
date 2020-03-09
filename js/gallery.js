@@ -12,40 +12,34 @@
     return pictureNode;
   };
 
-  var generatePictureFragment = function (arr) {
+  // var generatePictureFragment = function (arr) {
+  //   var fragmentPicture = document.createDocumentFragment();
+  //   for (var i = 0; i < arr.length; i++) {
+  //     var pictureElement = renderPicture(arr[i]);
+  //     pictureElement.setAttribute('data-num', i);
+  //     fragmentPicture.appendChild(pictureElement);
+  //   }
+  //   return fragmentPicture;
+  // };
+  //
+  // var appendPicture = function (fragment) {
+  //   pictures.appendChild(fragment);
+  // };
+  //
+  // var renderSimilarPictures = function (data) {
+  //   appendPicture(generatePictureFragment(data));
+  // };
+
+  var successHandler = function (arr) {
     var fragmentPicture = document.createDocumentFragment();
+
     for (var i = 0; i < arr.length; i++) {
       var pictureElement = renderPicture(arr[i]);
       pictureElement.setAttribute('data-num', i);
       fragmentPicture.appendChild(pictureElement);
     }
-    return fragmentPicture;
+    pictures.appendChild(fragmentPicture);
   };
-
-  var appendPicture = function (fragment) {
-    pictures.appendChild(fragment);
-  };
-
-  appendPicture(generatePictureFragment(window.data.smallPhotos));
-
-  // var renderSimilarPictures = function (picturesArray) {
-  //   var similarPicturesElement = document.createDocumentFragment();
-  //   for (var i = 0; i < picturesArray.length; i++) {
-  //     similarPicturesElement.appendChild(renderPicture(picturesArray[i]));
-  //   }
-  //   picturesContainer.appendChild(similarPicturesElement);
-  // };
-
-  // renderSimilarPictures(window.data.pictures);
-
-  // var successHandler = function (picturesArray) {
-  //   var similarPicturesElement = document.createDocumentFragment();
-  //
-  //   for (var i = 0; i < picturesArray.length; i++) {
-  //     similarPicturesElement.appendChild(renderPicture(picturesArray[i]));
-  //   }
-  //   picturesContainer.appendChild(similarPicturesElement);
-  // };
 
   var errorHandler = function (errorMessage) {
     var node = document.createElement('div');
@@ -58,6 +52,8 @@
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
   };
+
+  // renderSimilarPictures(window.data.smallPhotos)
 
   window.backend.load(successHandler, errorHandler);
 })();
