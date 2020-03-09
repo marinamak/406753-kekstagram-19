@@ -5,6 +5,7 @@
   var STEP_SCALE = 25;
   // ------- Загрузка изображения и открытие/закрытие формы редактирования ------
   var imgUpload = document.querySelector('.img-upload');
+  var form = imgUpload.querySelector('.img-upload__form');
   var uploadFile = imgUpload.querySelector('#upload-file');
   var imgEditor = imgUpload.querySelector('.img-upload__overlay');
   var uploadCancel = imgEditor.querySelector('#upload-cancel');
@@ -14,6 +15,9 @@
   var imgPreview = imgEditor.querySelector('.img-upload__preview img');
   var hashtagsInput = imgEditor.querySelector('.text__hashtags');
   var commentTextarea = imgEditor.querySelector('.text__description');
+  var successMessageTemplate = document.querySelector('#success').content.firstElementChild;
+  var errorMessageTemplate = document.querySelector('#error').content.firstElementChild;
+  var originalFilter = document.querySelector('#effect-none');
 
   var closeEditorEscHandler = function (evt) {
     var isHashtagsFocused = (document.activeElement === hashtagsInput);
@@ -36,6 +40,10 @@
     document.body.classList.remove('modal-open');
     document.removeEventListener('keydown', closeEditorEscHandler);
     uploadFile.value = '';
+    hashtagsInput.value = '';
+    commentTextarea.value = '';
+    clearEffect();
+    originalFilter.checked = true;
   };
 
   uploadFile.addEventListener('change', function () {
@@ -118,6 +126,61 @@
       imgPreview.style.filter = 'brightness(' + value * 3 + ')';
     }
   };
+
+  var removeSuccesMessage = function (evt) {
+    if (evt.target.classList.contains('success__button') || evt.target.classList.contains('success')) {
+      document.querySelector('main').removeChild(successMessageTemplate);
+      successMessageTemplate.removeEventListener('click', removeSuccesMessage);
+    }
+  };
+
+  var removeEscMessage = function (evt) {
+    window.util.isEscEvent(evt, function () {
+      document.querySelector('main').removeChild(successMessageTemplate);
+      document.removeEventListener('keydown', removeEscMessage);
+    });
+  };
+
+  var removeErrorMessage = function (evt) {
+    if (evt.target.classList.contains('error__button') || evt.target.classList.contains('error')) {
+      document.querySelector('main').removeChild(errorMessageTemplate);
+      successMessageTemplate.removeEventListener('click', removeErrorMessage);
+    }
+  };
+
+  var removeEscMessageError = function (evt) {
+    window.util.isEscEvent(evt, function () {
+      document.querySelector('main').removeChild(errorMessageTemplate);
+      document.removeEventListener('keydown', removeEscMessageError);
+    });
+  };
+
+  var showSuccessMessage = function () {
+    document.querySelector('main').appendChild(successMessageTemplate);
+    successMessageTemplate.addEventListener('click', removeSuccesMessage);
+    document.addEventListener('keydown', removeEscMessage);
+  };
+
+  var showErrorMessage = function () {
+    document.querySelector('main').appendChild(errorMessageTemplate);
+    errorMessageTemplate.addEventListener('click', removeErrorMessage);
+    document.addEventListener('keydown', removeEscMessageError);
+  };
+
+  var successSave = function () {
+    closeEditor();
+    showSuccessMessage();
+  };
+
+  var errorSave = function () {
+    closeEditor();
+    showErrorMessage();
+  };
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(form), successSave, errorSave);
+  });
 
   window.form = {
     changeEffectValue: changeEffectValue
