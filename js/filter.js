@@ -11,6 +11,10 @@
     }
   };
 
+  var defaultPhotos = function () {
+    return window.photos;
+  };
+
   var randomPhotos = function (arr) {
     var randomArray = [];
     for (var i = 0; i < 10; i++) {
@@ -27,15 +31,12 @@
     });
   };
 
-  var defaultPhotos = function () {
-    return window.photos;
-  };
-
   var changeFilter = window.debounce(function (cb) {
     var arrayCopy = window.photos.slice();
     var data = cb(arrayCopy);
     deletePictures();
     window.render.appendPicture(data);
+    window.filterPictures = data;
   });
 
 

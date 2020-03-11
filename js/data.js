@@ -30,7 +30,7 @@
   // ------ Функция формирования комментариев -----
   var createComment = function () {
     var commentBlocks = [];
-    var numberComments = window.util.getRandomInt(1, 6);
+    var numberComments = window.util.getRandomInt(1, 100);
     for (var i = 0; i <= numberComments; i++) {
       var comment = {};
       comment.avatar = 'img/avatar-' + window.util.getRandomInt(1, 6) + '.svg';

@@ -4,10 +4,10 @@
   var SOCIAL_PICTURE_HEIGHT = 35;
   var ESC_BTN = 'Escape';
   var ENTER_BTN = 'Enter';
+  var MAX_COMMENTS = 5;
   var pictures = document.querySelector('.pictures');
   var bigPicture = document.querySelector('.big-picture');
   var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
-  var bigPictureCommentCount = document.querySelector('.social__comment-count');
   var bigPictureCommentsLoader = document.querySelector('.comments-loader');
 
   // --------Показ изображения в полноразмерном режиме--------
@@ -22,34 +22,57 @@
   };
 
   var generateCommentsFragment = function (arr) {
+    var commentsLength = arr.length > MAX_COMMENTS ? MAX_COMMENTS : arr.length;
     var fragmentComments = document.createDocumentFragment();
     var socialComments = document.querySelector('.social__comments').cloneNode();
-    for (var i = 0; i < arr.length; i++) {
+    for (var i = 0; i < commentsLength; i++) {
       socialComments.appendChild(renderComment(arr[i]));
     }
     fragmentComments.appendChild(socialComments);
+    arr.splice(0, commentsLength);
     return fragmentComments;
   };
 
   var renderBigPicture = function (picture) {
-
+    var commentsArray = picture.comments.slice();
+    bigPictureCommentsLoader.removeEventListener('click', loadComments);
     bigPicture.classList.remove('hidden');
-    bigPictureCommentCount.classList.add('hidden');
-    bigPictureCommentsLoader.classList.add('hidden');
     document.body.classList.add('modal-open');
+
+    if (picture.comments.length <= MAX_COMMENTS) {
+      bigPictureCommentsLoader.classList.add('hidden');
+    } else {
+      bigPictureCommentsLoader.classList.remove('hidden');
+    }
 
     bigPicture.querySelector('.big-picture__img').querySelector('img').src = picture.url;
     bigPicture.querySelector('.likes-count').textContent = picture.likes;
-    bigPicture.querySelector('.comments-count').textContent = picture.comments.length - 1;
+    bigPicture.querySelector('.comments-showed').textContent = picture.comments.length > MAX_COMMENTS ? MAX_COMMENTS : picture.comments.length;
+    bigPicture.querySelector('.comments-count').textContent = picture.comments.length;
     bigPicture.querySelector('.social__caption').textContent = picture.description;
     bigPicture.querySelector('.social__comments').parentNode
-    .replaceChild(generateCommentsFragment(picture.comments), bigPicture.querySelector('.social__comments'));
+    .replaceChild(generateCommentsFragment(commentsArray), bigPicture.querySelector('.social__comments'));
+
+    var loadComments = function () {
+      var commentsLength = commentsArray.length > MAX_COMMENTS ? MAX_COMMENTS : commentsArray.length;
+      for (var i = 0; i < commentsLength; i++) {
+        bigPicture.querySelector('.social__comments').appendChild(renderComment(commentsArray[i]));
+      }
+      bigPicture.querySelector('.comments-showed').innerText = +bigPicture.querySelector('.comments-showed').innerText + commentsLength;
+      commentsArray.splice(0, commentsLength);
+      if (commentsArray.length === 0) {
+        bigPictureCommentsLoader.removeEventListener('click', loadComments);
+        bigPictureCommentsLoader.classList.add('hidden');
+      }
+    };
+
+    bigPictureCommentsLoader.addEventListener('click', loadComments);
   };
 
   var showBigPictureHandler = function (evt) {
     if (evt.target.parentNode.classList.contains('picture')) {
       var elementNum = evt.target.parentNode.getAttribute('data-num');
-      renderBigPicture(window.data.smallPhotos[elementNum]);
+      renderBigPicture(window.filterPictures[elementNum]);
       document.addEventListener('keydown', closeBigPictureHandler);
     }
   };
@@ -58,7 +81,7 @@
     var isBigPictureFocused = (document.activeElement.classList.contains('picture'));
     if (evt.key === ENTER_BTN && isBigPictureFocused) {
       var elementNum = document.activeElement.getAttribute('data-num');
-      renderBigPicture(window.data.smallPhotos[elementNum]);
+      renderBigPicture(window.filterPictures[elementNum]);
       document.addEventListener('keydown', closeBigPictureHandler);
     }
   };
