@@ -3,7 +3,7 @@
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var STEP_SCALE = 25;
-  // ------- Загрузка изображения и открытие/закрытие формы редактирования ------
+
   var imgUpload = document.querySelector('.img-upload');
   var form = imgUpload.querySelector('.img-upload__form');
   var uploadFile = imgUpload.querySelector('#upload-file');
@@ -18,6 +18,11 @@
   var successMessageTemplate = document.querySelector('#success').content.firstElementChild;
   var errorMessageTemplate = document.querySelector('#error').content.firstElementChild;
   var originalFilter = document.querySelector('#effect-none');
+  var effects = imgEditor.querySelector('.effects');
+  var effectLevel = imgEditor.querySelector('.effect-level');
+  var effectPin = effectLevel.querySelector('.effect-level__pin');
+  var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
+  var imgUploadLabel = imgUpload.querySelector('.img-upload__label');
 
   var closeEditorEscHandler = function (evt) {
     var isHashtagsFocused = (document.activeElement === hashtagsInput);
@@ -54,7 +59,6 @@
     closeEditor();
   });
 
-  // ----- Размер изображения ------
   var increaseScale = function () {
     var currentScale = parseInt(scaleControlValue.value, 10);
     if (currentScale < MAX_SCALE) {
@@ -83,13 +87,6 @@
 
   scaleControlSmaller.addEventListener('click', decreaseScale);
   scaleControlBigger.addEventListener('click', increaseScale);
-
-  // --------Наложение эффекта на изображение ---------
-  var effects = imgEditor.querySelector('.effects');
-  var effectLevel = imgEditor.querySelector('.effect-level');
-  var effectPin = effectLevel.querySelector('.effect-level__pin');
-  var effectLevelDepth = effectLevel.querySelector('.effect-level__depth');
-  var imgUploadLabel = imgUpload.querySelector('.img-upload__label');
 
   var clearEffect = function () {
     imgPreview.removeAttribute('class');

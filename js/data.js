@@ -15,7 +15,6 @@
     'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
   ];
 
-  // ------ Формирование случайного комментария ------
   var getRandomComment = function () {
     var randCommentCount = window.util.getRandomInt(1, 2);
     var photoComments = [];
@@ -27,7 +26,6 @@
     return photoComments;
   };
 
-  // ------ Функция формирования комментариев -----
   var createComment = function () {
     var commentBlocks = [];
     var numberComments = window.util.getRandomInt(1, 100);
@@ -41,7 +39,6 @@
     return commentBlocks;
   };
 
-  // ------ Формирование массива фотографий ------
   var createPhoto = function (picNum) {
     var photos = [];
     for (var i = 0; i <= picNum - 1; i++) {

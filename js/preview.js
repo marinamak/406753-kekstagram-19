@@ -10,7 +10,6 @@
   var pictureCancel = bigPicture.querySelector('.big-picture__cancel');
   var bigPictureCommentsLoader = document.querySelector('.comments-loader');
 
-  // --------Показ изображения в полноразмерном режиме--------
   var renderComment = function (commentElement) {
     var newSocialComment = document.querySelector('.social__comment').cloneNode(true);
     newSocialComment.querySelector('.social__picture').setAttribute('src', commentElement.avatar);
