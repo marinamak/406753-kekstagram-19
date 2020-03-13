@@ -2,7 +2,7 @@
 (function () {
   var MAX_HASHTAGS_COUNT = 5;
   var MAX_HASHTAG_LENGTH = 20;
-  // ------ Валидация хеш-тегов ------
+
   var imgUpload = document.querySelector('.img-upload');
   var imgEditor = imgUpload.querySelector('.img-upload__overlay');
   var hashtagsInput = imgEditor.querySelector('.text__hashtags');

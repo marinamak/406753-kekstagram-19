@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   var imgUpload = document.querySelector('.img-upload');
   var imgEditor = imgUpload.querySelector('.img-upload__overlay');

@@ -5,9 +5,9 @@
 
   var renderPicture = function (pictureElement) {
     var pictureNode = pictureTemplate.cloneNode(true);
-    pictureNode.querySelector('.picture__img').setAttribute('src', pictureElement.url);
-    pictureNode.querySelector('.picture__likes').innerText = pictureElement.likes;
-    pictureNode.querySelector('.picture__comments').innerText = pictureElement.comments.length;
+    pictureNode.querySelector('.picture__img').src = pictureElement.url;
+    pictureNode.querySelector('.picture__likes').textContent = pictureElement.likes;
+    pictureNode.querySelector('.picture__comments').textContent = pictureElement.comments.length;
     return pictureNode;
   };
 
@@ -21,8 +21,8 @@
     return fragmentPicture;
   };
 
-  var appendPicture = function (fragment) {
-    pictures.appendChild(generatePictureFragment(fragment));
+  var appendPicture = function (data) {
+    pictures.appendChild(generatePictureFragment(data));
   };
 
   window.render = {
