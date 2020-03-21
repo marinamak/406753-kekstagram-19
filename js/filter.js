@@ -1,9 +1,9 @@
 'use strict';
 (function () {
+  var RANDOM_NUMBER = 10;
   var imgFilters = document.querySelector('.img-filters');
   var filterForm = document.querySelector('.img-filters__form');
   var currentFilter = 'default';
-  var RANDOM_NUMBER = 10;
 
   var deletePictures = function () {
     var pictures = document.querySelectorAll('.picture');
@@ -19,7 +19,7 @@
   var randomPhotos = function (arr) {
     var randomArray = [];
     for (var i = 0; i < RANDOM_NUMBER; i++) {
-      var index = window.util.getRandomInt(0, arr.length);
+      var index = window.util.getRandomInt(0, arr.length - 1);
       randomArray.push(arr[index]);
       arr.splice(index, 1);
     }
@@ -28,19 +28,13 @@
 
   var sortPhotos = function (arr) {
     return arr.sort(function (first, second) {
-      if (first.comments.length > second.comments.length) {
-        return -1;
-      } else if (first.comments.length < second.comments.length) {
-        return 1;
-      } else {
-        return 0;
-      }
+      return second.comments.length - first.comments.length;
     });
   };
 
-  var applyFilter = window.debounce(function (cb) {
+  var applyFilter = window.debounce(function (callback) {
     var arrayCopy = window.photos.slice();
-    var data = cb(arrayCopy);
+    var data = callback(arrayCopy);
     deletePictures();
     window.render.appendPicture(data);
     window.filterPictures = data;

@@ -4,9 +4,9 @@
   var MIN_LIKES = 15;
   var MAX_LIKES = 200;
 
-  var commentatorsNames = ['Иван', 'Сергей', 'Мария', 'Виктор', 'Юлия', 'Полина', 'Ксения', 'Дмитрий'];
+  var COMMENTATORSNAMES = ['Иван', 'Сергей', 'Мария', 'Виктор', 'Юлия', 'Полина', 'Ксения', 'Дмитрий'];
 
-  var messages = [
+  var MESSAGES = [
     'Всё отлично!',
     'В целом всё неплохо. Но не всё.',
     'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -20,7 +20,7 @@
     var photoComments = [];
     var i = 1;
     while (i <= randCommentCount) {
-      photoComments = photoComments + window.util.getRandomValueFromArray(messages) + ' ';
+      photoComments = photoComments + window.util.getRandomValueFromArray(MESSAGES) + ' ';
       i++;
     }
     return photoComments;
@@ -33,7 +33,7 @@
       var comment = {};
       comment.avatar = 'img/avatar-' + window.util.getRandomInt(1, 6) + '.svg';
       comment.message = getRandomComment();
-      comment.name = commentatorsNames[window.util.getRandomInt(0, commentatorsNames.length - 1)];
+      comment.name = COMMENTATORSNAMES[window.util.getRandomInt(0, COMMENTATORSNAMES.length - 1)];
       commentBlocks.push(comment);
     }
     return commentBlocks;

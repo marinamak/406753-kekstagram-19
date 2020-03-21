@@ -57,7 +57,7 @@
       for (var i = 0; i < commentsLength; i++) {
         bigPicture.querySelector('.social__comments').appendChild(renderComment(commentsArray[i]));
       }
-      bigPicture.querySelector('.comments-showed').innerText = +bigPicture.querySelector('.comments-showed').innerText + commentsLength;
+      bigPicture.querySelector('.comments-showed').textContent = +bigPicture.querySelector('.comments-showed').textContent + commentsLength;
       commentsArray.splice(0, commentsLength);
       if (commentsArray.length === 0) {
         bigPictureCommentsLoader.removeEventListener('click', loadComments);
